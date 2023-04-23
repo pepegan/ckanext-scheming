@@ -63,6 +63,50 @@ dataset_fields:
   form_placeholder: Joe Bloggs
   display_property: dc:contributor
 
+- field_name: author
+  label: Authors
+  preset: composite_repeating
+  form_blanks: 1
+  subfields:
+  - field_name: name
+    label: Name
+    form_placeholder: eg. John Smith
+  - field_name: type
+    label: Type
+    choices:
+    - value: collaborator
+      label: Collaborator
+    - value: editor
+      label: Editor
+
+- field_name: pepe
+  label: Pepe
+  preset: repeating_text
+  form_blanks: 3
+
+- field_name: maintainer
+  label: Maintainer
+  preset: composite
+  subfields:
+  - field_name: name
+    label: Name
+    form_placeholder: Joe Bloggs
+  - field_name: email
+    label: Email
+    form_placeholder: joe@example.com
+  - field_name: date
+    label: Date
+    preset: date
+    form_placeholder: yyyy-mm-mm
+  - field_name: identifier_scheme
+    label: Scheme
+    preset: select
+    choices:
+    - value: orcid
+      label: ORCID
+    - value: isni
+      label: ISNI
+
 - field_name: maintainer_email
   label: Maintainer Email
   form_placeholder: joe@example.com
@@ -89,3 +133,28 @@ resource_fields:
 - field_name: format
   label: Format
   preset: resource_format_autocomplete
+
+- field_name: restricted
+  label: Access Restriction
+  preset: composite
+  subfields:
+  - field_name: level
+    label: Level
+    preset: select
+    form_include_blank_choice: false
+    required: true
+    choices:
+    - value: public
+      label: Public
+    - value: registered
+      label: Registered Users
+    - value: any_organization
+      label: Any Organization Members (Trusted Users)
+    - value: same_organization
+      label: Same Organization Members
+    - value: only_allowed_users
+      label: Allowed Users Only
+  - field_name: allowed_users
+    label: Allowed Users
+    preset: tag_string_autocomplete
+    data-module-source: "/api/2/util/user/autocomplete?q=?"

@@ -2,7 +2,7 @@ import json
 import datetime
 from collections import defaultdict
 import itertools
-
+import chardet
 import pytz
 import six
 
@@ -448,7 +448,8 @@ def scheming_multiple_text(field, schema):
                     continue
                 if isinstance(element, six.binary_type):
                     try:
-                        element = element.decode('utf-8')
+                        encoding = chardet.detect(element)["encoding"]
+                        element = element.encode(encoding).decode("utf-8")
                     except UnicodeDecodeError:
                         errors[key]. append(_('invalid encoding for "%s" value')
                                             % element)

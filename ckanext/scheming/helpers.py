@@ -2,6 +2,7 @@
 
 import re
 import datetime
+import chardet
 import pytz
 import json
 import six
@@ -63,7 +64,8 @@ def scheming_language_text(text, prefer_lang=None):
         return v
 
     if isinstance(text, six.binary_type):
-        text = text.decode('utf-8')
+        encoding = chardet.detect(text)["encoding"]
+        text = text.encode(encoding).decode("utf-8")
     t = _(text)
     return t
 
